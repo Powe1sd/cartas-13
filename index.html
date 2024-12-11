@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Cards</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Puedes agregar tus propios estilos en un archivo styles.css si es necesario -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container my-5">
+      <h1 class="text-center mb-4">Dynamic Cards</h1>
+      <div class="row" id="cards-container">
+        <!-- Las tarjetas se agregarán dinámicamente aquí -->
+      </div>
+    </div>
+
+    <script>
+      // Array de datos de las cartas con imágenes, nombres y descripciones detalladas
+      const cardData = [
+        {
+          title: "1 de Bastos",
+          content:
+            "El 1 de Bastos es una carta que simboliza el comienzo de nuevos proyectos, energía renovada y fuerza de voluntad. Representa un nuevo inicio en un camino lleno de oportunidades.",
+          image: "img/bastos/1-de-bastos.jpg",
+        },
+        {
+          title: "2 de Bastos",
+          content:
+            "El 2 de Bastos habla de la toma de decisiones importantes, planificación y la acción que viene después de un periodo de reflexión. Es la carta de la visión y el enfoque hacia el futuro.",
+          image: "img/bastos/2-bastos.jpg",
+        },
+        {
+          title: "3 de Bastos",
+          content:
+            "El 3 de Bastos es una carta que refleja el éxito que viene después del trabajo duro y la planificación. Es un símbolo de progreso y expansión, de mirar hacia adelante con confianza.",
+          image: "img/bastos/3-de-bastos.jpg",
+        },
+        {
+          title: "4 de Bastos",
+          content:
+            "El 4 de Bastos simboliza la estabilidad, la armonía y el logro de metas. Es una carta que habla de un tiempo de paz y celebración, donde se cosechan los frutos de los esfuerzos previos.",
+          image: "img/bastos/4-bastos.jpg",
+        },
+        {
+          title: "5 de Bastos",
+          content:
+            "El 5 de Bastos indica conflicto, competencia o lucha por alcanzar un objetivo. Aunque puede haber tensiones, también es una oportunidad para crecer y aprender de los desafíos.",
+          image: "img/bastos/5-de-bastos.jpg",
+        },
+        // ... Agrega el resto de las cartas aquí siguiendo el mismo formato
+        {
+          title: "6 de Bastos",
+          content:
+            "El 6 de Bastos simboliza la victoria, el reconocimiento y el logro de tus metas. Es una carta que indica éxito después de un esfuerzo considerable y el reconocimiento por tu arduo trabajo.",
+          image: "img/bastos/6-de-bastos.jpg",
+        },
+        {
+          title: "7 de Bastos",
+          content:
+            "El 7 de Bastos refleja la necesidad de defender tus ideas y principios. Puede indicar que te enfrentas a desafíos, pero tienes la determinación para superarlos.",
+          image: "img/bastos/7-bastos.jpg",
+        },
+        {
+          title: "10 de Bastos",
+          content:
+            "El 8 de Bastos es una carta de velocidad y movimiento. Indica que los eventos se desarrollan rápidamente y que se están acercando cambios importantes.",
+          image: "img/bastos/10-de-bastos.jpg",
+        },
+        {
+          title: "11 de Bastos",
+          content:
+            "El 9 de Bastos muestra que has estado luchando durante mucho tiempo y que estás cerca del agotamiento. Sin embargo, es una carta que indica que, aunque te sientas débil, tienes una última reserva de energía para seguir adelante.",
+          image: "img/bastos/11-bastos.jpg",
+        },
+        {
+          title: "12 de Bastos",
+          content:
+            "El 10 de Bastos simboliza el estrés, la carga y la sobrecarga de responsabilidades. Es un recordatorio de que es necesario delegar tareas y no sobrecargarse.",
+          image: "img/bastos/12-bastos.jpg",
+        },
+        {
+          title: "1 de Copas",
+          content:
+            "El 1 de Copas es una carta de nuevos comienzos emocionales. Habla de la apertura del corazón, la conexión emocional profunda y el amor genuino que está por llegar.",
+          image: "img/copas/1-copas.jpg",
+        },
+        {
+          title: "2 de Copas",
+          content:
+            "El 2 de Copas simboliza la unión, la armonía y las relaciones de pareja. Esta carta predice una conexión profunda con otro ser humano, ya sea en el amor o en una asociación importante.",
+          image: "img/copas/2-de-copas.jpg",
+        },
+        {
+          title: "3 de Copas",
+          content:
+            "El 3 de Copas es la carta de la celebración, la amistad y la alegría compartida. Es un recordatorio de que la vida está llena de momentos de gratitud y que compartir estos momentos con los demás trae felicidad.",
+          image: "img/copas/3-de-copas.jpg",
+        },
+        {
+          title: "4 de Copas",
+          content:
+            "El 4 de Copas refleja la insatisfacción emocional y la necesidad de reevaluar tus sentimientos. Puede significar que estás buscando algo más, pero no estás viendo las oportunidades que ya tienes.",
+          image: "img/copas/4-copas.jpg",
+        },
+        {
+          title: "5 de Copas",
+          content:
+            "El 5 de Copas habla de la tristeza, la pérdida y el arrepentimiento. Es una carta que nos recuerda que es importante no quedarnos anclados en el pasado, sino aprender de las experiencias.",
+          image: "img/copas/5-copas.jpg",
+        },
+        {
+          title: "6 de Copas",
+          content:
+            "El 6 de Copas simboliza la nostalgia, los recuerdos y la infancia. Es una carta que invita a revivir momentos felices y a reconectar con los recuerdos del pasado que te traen paz.",
+          image: "img/copas/6-copas.jpg",
+        },
+        {
+          title: "7 de Copas",
+          content:
+            "El 7 de Copas refleja la confusión, las ilusiones y las opciones que te rodean. Esta carta te aconseja tener claridad y tomar decisiones informadas para no caer en las trampas de la fantasía.",
+          image: "img/copas/7-de-copas.jpg",
+        },
+        {
+          title: "10 de Copas",
+          content:
+            "El 8 de Copas simboliza la necesidad de dejar atrás lo que ya no te sirve. Es una carta de búsqueda interior, de dejar lo conocido para explorar nuevas posibilidades.",
+          image: "img/copas/10-copas.jpg",
+        },
+        {
+          title: "11 de Copas",
+          content:
+            "El 9 de Copas es la carta de la satisfacción emocional. Indica que los deseos se están cumpliendo y que estás experimentando un momento de bienestar y plenitud.",
+          image: "img/copas/11-de-copas.jpg",
+        },
+        {
+          title: "1 de Espadas",
+          content:
+            "El 1 de Espadas simboliza un nuevo comienzo intelectual. Es una carta de claridad mental, nuevas ideas y la posibilidad de cortar con lo que ya no te sirve.",
+          image: "img/espadas/1-de-espadas.jpg",
+        },
+        {
+          title: "2 de Espadas",
+          content:
+            "El 2 de Espadas refleja la necesidad de tomar decisiones difíciles, pero te invita a hacerlo de manera equilibrada y razonada. La claridad viene cuando se actúa con calma.",
+          image: "img/espadas/2-de-espadas.jpg",
+        },
+        {
+          title: "3 de Espadas",
+          content:
+            "El 3 de Espadas es la carta del dolor emocional y la traición. Representa un sufrimiento profundo, pero también un recordatorio de que la curación es posible y que todo dolor pasa.",
+          image: "img/espadas/3-espadas.jpg",
+        },
+        {
+          title: "4 de Espadas",
+          content:
+            "El 4 de Espadas simboliza la necesidad de descanso y recuperación. Habla de tomarse un tiempo para reflexionar y sanar antes de seguir adelante con nuevas metas.",
+          image: "img/espadas/4-espadas.jpg",
+        },
+        {
+          title: "5 de Espadas",
+          content:
+            "El 5 de Espadas refleja conflictos, derrotas o luchas perdidas. Esta carta te recuerda que, a veces, la verdadera victoria es alejarse de situaciones destructivas.",
+          image: "img/espadas/5-espadas.jpg",
+        },
+        {
+          title: "6 de Espadas",
+          content:
+            "El 6 de Espadas es la carta del viaje, el cambio y la transición. Habla de dejar atrás lo viejo y avanzar hacia un futuro más prometedor.",
+          image: "img/espadas/6-espadas.jpg",
+        },
+        {
+          title: "7 de Espadas",
+          content:
+            "El 7 de Espadas simboliza la astucia, la estrategia y la necesidad de ser cauteloso. Indica que a veces debes actuar con discreción para lograr tus objetivos.",
+          image: "img/espadas/7-espadas.jpg",
+        },
+        {
+          title: "10 de Espadas",
+          content:
+            "El 8 de Espadas muestra una sensación de estar atrapado o restringido. Es una carta que te invita a encontrar maneras de liberarte de las limitaciones autoimpuestas.",
+          image: "img/espadas/10-espadas.jpg",
+        },
+        {
+          title: "11 de Espadas",
+          content:
+            "El 9 de Espadas refleja la ansiedad, el estrés y los miedos. Habla de los pensamientos negativos que nos acechan, pero también es un recordatorio de que muchos de estos miedos son infundados.",
+          image: "img/espadas/11-espadas.jpg",
+        },
+        {
+          title: "12 de Espadas",
+          content:
+            "El 10 de Espadas simboliza la finalización de un ciclo. Aunque puede ser doloroso, esta carta anuncia el final de una etapa difícil y el comienzo de una nueva oportunidad.",
+          image: "img/espadas/12-espadas.jpg",
+        },
+
+        // Existing card data...
+        {
+          title: "1 de Oros",
+          content:
+            "El 1 de Oros simboliza un nuevo comienzo en el ámbito material. Habla de estabilidad, riqueza y el inicio de un proyecto que traerá abundancia.",
+          image: "img/oro/1-de-oros.jpg",
+        },
+        {
+          title: "2 de Oros",
+          content:
+            "El 2 de Oros habla de la adaptabilidad y el equilibrio entre las responsabilidades. Es la carta de la gestión de las finanzas y de encontrar la armonía en la vida cotidiana.",
+          image: "img/oro/2-de-oros.jpg",
+        },
+        {
+          title: "3 de Oros",
+          content:
+            "El 3 de Oros simboliza el trabajo en equipo, la colaboración y el reconocimiento por el esfuerzo conjunto. Es una carta de éxito a través del trabajo bien hecho.",
+          image: "img/oro/3-oros.jpg",
+        },
+        {
+          title: "4 de Oros",
+          content:
+            "El 4 de Oros refleja la seguridad material y la necesidad de aferrarse a lo que se tiene. Sin embargo, es un recordatorio de que el miedo a perder lo material puede impedir el crecimiento.",
+          image: "img/oro/4-de-oros.jpg",
+        },
+        {
+          title: "5 de Oros",
+          content:
+            "El 5 de Oros simboliza la pérdida, la falta de recursos o la sensación de estar atrapado en dificultades económicas. Es un llamado a no rendirse ante la adversidad.",
+          image: "img/oro/5-oros.jpg",
+        },
+        {
+          title: "6 de Oros",
+          content:
+            "El 6 de Oros es la carta de la generosidad y el equilibrio en los intercambios materiales. Indica que el dar y recibir está en equilibrio y que se encuentra la armonía en las finanzas.",
+          image: "img/oro/6-oros.jpg",
+        },
+        {
+          title: "7 de Oros",
+          content:
+            "El 7 de Oros habla de la evaluación de los frutos del trabajo realizado. Es un recordatorio de que el progreso material requiere paciencia y análisis a largo plazo.",
+          image: "img/oro/7 de oros.jpg",
+        },
+
+        {
+          title: "9 de Oros",
+          content:
+            "El 9 de Oros refleja el éxito material alcanzado por medio del esfuerzo personal. Es una carta de independencia y satisfacción por los logros alcanzados.",
+          image: "img/oro/11-de-oros.jpg",
+        },
+        {
+          title: "10 de Oros",
+          content:
+            "El 10 de Oros simboliza la abundancia, el legado y la estabilidad financiera a largo plazo. Es una carta que indica que las riquezas se han alcanzado y que se disfruta de la seguridad.",
+          image: "img/oro/10-oros.jpg",
+        },
+        {
+          title: "11 de Oros",
+          content:
+            "El 11 de Oros refleja el dominio sobre las finanzas y la riqueza. Es una carta que habla del éxito y la estabilidad alcanzados a través de esfuerzos constantes.",
+          image: "img/oro/11-de-oros.jpg",
+        },
+        {
+          title: "12 de Oros",
+          content:
+            "El 12 de Oros es la carta de la transformación material. Habla de cambios en la vida financiera y la adaptación a nuevas circunstancias que traerán una nueva fase de abundancia.",
+          image: "img/oro/12-de-oros.jpg",
+        },
+      ];
+
+      // Función para agregar las cartas al contenedor
+      function addCards() {
+        const container = document.getElementById("cards-container");
+        cardData.forEach((card) => {
+          const cardElement = `
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+              <div class="card">
+                <img src="${card.image}" class="card-img-top" alt="${card.title}" />
+                <div class="card-body">
+                  <h5 class="card-title">${card.title}</h5>
+                  <p class="card-text">${card.content}</p>
+                </div>
+              </div>
+            </div>
+          `;
+          container.innerHTML += cardElement;
+        });
+      }
+
+      // Llamar a la función para agregar las cartas al cargar la página
+      window.onload = addCards;
+    </script>
+
+    <!-- Agregar Bootstrap JS y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
