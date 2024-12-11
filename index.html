@@ -15,6 +15,18 @@
   <body>
     <div class="container my-5">
       <h1 class="text-center mb-4">Dynamic Cards</h1>
+
+      <!-- Buscador -->
+      <div class="mb-4">
+        <input
+          type="text"
+          class="form-control"
+          id="search-input"
+          placeholder="Buscar carta..."
+          onkeyup="filterCards()"
+        />
+      </div>
+
       <div class="row" id="cards-container">
         <!-- Las tarjetas se agregarán dinámicamente aquí -->
       </div>
@@ -47,6 +59,8 @@
             "El 4 de Bastos simboliza la estabilidad, la armonía y el logro de metas. Es una carta que habla de un tiempo de paz y celebración, donde se cosechan los frutos de los esfuerzos previos.",
           image: "img/bastos/4-bastos.jpg",
         },
+        // ... Agrega el resto de las cartas aquí siguiendo el mismo formato
+
         {
           title: "5 de Bastos",
           content:
@@ -269,30 +283,44 @@
         },
       ];
 
-      // Función para agregar las cartas al contenedor
-      function addCards() {
+      // Función para mostrar las cartas
+      function displayCards(cards) {
         const container = document.getElementById("cards-container");
-        cardData.forEach((card) => {
-          const cardElement = `
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-              <div class="card">
-                <img src="${card.image}" class="card-img-top" alt="${card.title}" />
-                <div class="card-body">
-                  <h5 class="card-title">${card.title}</h5>
-                  <p class="card-text">${card.content}</p>
-                </div>
+        container.innerHTML = ""; // Limpiar contenedor
+        cards.forEach((card) => {
+          const cardElement = document.createElement("div");
+          cardElement.classList.add("col-md-4", "mb-4");
+
+          cardElement.innerHTML = `
+            <div class="card">
+              <img src="${card.image}" class="card-img-top" alt="${card.title}">
+              <div class="card-body">
+                <h5 class="card-title">${card.title}</h5>
+                <p class="card-text">${card.content}</p>
               </div>
             </div>
           `;
-          container.innerHTML += cardElement;
+          container.appendChild(cardElement);
         });
       }
 
-      // Llamar a la función para agregar las cartas al cargar la página
-      window.onload = addCards;
+      // Filtrar las cartas según el texto ingresado
+      function filterCards() {
+        const searchText = document
+          .getElementById("search-input")
+          .value.toLowerCase();
+        const filteredCards = cardData.filter((card) => {
+          return card.title.toLowerCase().includes(searchText);
+        });
+        displayCards(filteredCards);
+      }
+
+      // Inicializar las cartas al cargar la página
+      displayCards(cardData);
     </script>
 
-    <!-- Agregar Bootstrap JS y dependencias -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
   </body>
 </html>
